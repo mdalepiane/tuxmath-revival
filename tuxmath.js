@@ -1,11 +1,21 @@
 
+var NUM_EQUATIONS = 50;
+var DELAY = 2000;
+var FALL_TIME = 10000;
+
 
 var lastColumn = -1;
+
+
+function Equation(expr, value) {
+	this.expr = expr;
+	this.value = value;
+}
 
 function newEquation() {
 	var a = Number.parseInt(Math.random() * 50);
 	var b = Number.parseInt(Math.random() * 50);
-	return a + '+' + b;
+	return new Equation(a + '+' + b, a+b);
 }
 
 function addEquation(equation) {
@@ -16,7 +26,7 @@ function addEquation(equation) {
 
 	var left = $('body').width()/5 * (column);
 
-	var element = '<div class="equation" style="left: ' + left + '">' + equation + '</div>';
+	var element = '<div class="equation" style="left: ' + left + '" value="' + equation.value + '">' + equation.expr + '</div>';
 	$('body').append(element);
 
 	lastColumn = column;
@@ -28,14 +38,14 @@ function addNewEquation() {
 }
 
 function addEquations(){
-	for(var i = 0 ; i < 50 ; i++) {
-		window.setTimeout(addNewEquation, i*1000);
+	for(var i = 0 ; i < NUM_EQUATIONS ; i++) {
+		window.setTimeout(addNewEquation, i*DELAY);
 	}
 }
 
 function animate() {
 	var fallHeight = $('body').height() - 13;
-	$('.equation').animate({top: fallHeight}, 5000, function(){
+	$('.equation').animate({top: fallHeight}, FALL_TIME, function(){
 		$(this).remove();
 	});
 }
@@ -43,6 +53,12 @@ function animate() {
 function handleInput() {
 	var answer = Number.parseInt($(this).val());
 	console.log(answer)
+	var eqs = $('.equation');
+	for(var i = 0 ; i < eqs.length ; i++) {
+		if(Number.parseInt($(eqs[i]).attr('value')) === answer) {
+			$(eqs[i]).remove();
+		}
+	}
 	$(this).val("");
 }
 
