@@ -3,8 +3,9 @@ var NUM_EQUATIONS = 50;
 var DELAY = 2000;
 var FALL_TIME = 10000;
 
-
 var lastColumn = -1;
+var score = 0;
+var total = 0;
 
 
 function Equation(expr, value) {
@@ -43,10 +44,19 @@ function addEquations(){
 	}
 }
 
+function updateScore(correct) {
+	total++;
+	if(correct) {
+		score++;
+	}
+	$("#score").text("Score: " + score + "/" + total);
+}
+
 function animate() {
 	var fallHeight = $('body').height() - 13;
 	$('.equation').animate({top: fallHeight}, FALL_TIME, function(){
 		$(this).remove();
+		updateScore(false);
 	});
 }
 
@@ -57,6 +67,7 @@ function handleInput() {
 	for(var i = 0 ; i < eqs.length ; i++) {
 		if(Number.parseInt($(eqs[i]).attr('value')) === answer) {
 			$(eqs[i]).remove();
+			updateScore(true);
 		}
 	}
 	$(this).val("");
