@@ -45,9 +45,10 @@ function addEquations(){
 }
 
 function updateScore(correct) {
-	total++;
 	if(correct) {
 		score++;
+	} else {
+		total++;
 	}
 	$("#score").text("Score: " + score + "/" + total);
 }
