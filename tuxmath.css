@@ -1,5 +1,6 @@
-h1 {
+.header {
 	font-variant: small-caps;
+	font-size: 30;
 }
 
 @keyframes fall {
